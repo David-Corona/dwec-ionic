@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <img [src]="user.avatar">
+    <ion-card-content>
+      <ion-card-title>{{user.name}}</ion-card-title>
+      <ion-card-subtitle>{{user.email}}</ion-card-subtitle>
+
+      <ion-button *ngIf="user.me" (click)="openEditProfile()" color="tertiary" >
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label>Edit Profile</ion-label>
+      </ion-button>
+      <ion-button *ngIf="user.me" (click)="openEditPassword()" color="tertiary" >
+        <ion-icon name="key" slot="start"></ion-icon>
+        <ion-label>Edit Password</ion-label>
+      </ion-button>
+      <ion-button *ngIf="user.me" (click)="openEditAvatar()" color="tertiary" >
+        <ion-icon name="image" slot="start"></ion-icon>
+        <ion-label>Edit Avatar</ion-label>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <mgl-map [style]="'mapbox://styles/mapbox/streets-v11'" [zoom]="[16]" [center]="[user.lng, user.lat]">
+    <mgl-marker #marker [lngLat]="[user.lng, user.lat]"></mgl-marker>
+  </mgl-map>
+
+</ion-content>

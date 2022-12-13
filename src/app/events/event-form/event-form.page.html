@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="!event.id">Add Event</ion-title>
+    <ion-title *ngIf="event.id">Edit Event</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form #eventForm="ngForm" novalidate>
+    <ion-list>
+
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input name="title" required [(ngModel)]="event.title" #titleModel="ngModel" pattern="[A-Za-z][A-Za-z\s]*"></ion-input>
+        <ion-icon name="checkmark-circle" slot="end" color="success" *ngIf="titleModel.dirty && titleModel.valid"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-datetime
+          [min]="minDate"
+          presentation="date"
+          displayFormat="DD/MM/YYYY HH:mm"
+          pickerFormat="DD MMMM YYYY HH mm"
+          name="date"
+          [required]="isNewEvent"
+          [(ngModel)]="event.date"
+          #dateModel="ngModel"
+          locale="en-EN">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input name="description" required [(ngModel)]="event.description" #descModel="ngModel"></ion-input>
+        <ion-icon name="checkmark-circle" slot="end" color="success" *ngIf="descModel.dirty && descModel.valid"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Price</ion-label>
+        <ion-input type="number" min="0.01" step="0.01" name="price" required [(ngModel)]="event.price" #priceModel="ngModel"></ion-input>
+        <ion-icon name="checkmark-circle" slot="end" color="success" *ngIf="priceModel.dirty && priceModel.valid"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="inset">Image</ion-label>
+        <ion-button color="tertiary" (click)="pickFromGallery()">
+          <ion-icon name="images" slot="start"></ion-icon>
+          Gallery
+        </ion-button>
+      </ion-item>
+
+      <ion-img [src]="event.image" *ngIf="event.image"></ion-img>
+
+      <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-input name="address" required readonly [(ngModel)]="event.address" #addressModel="ngModel"></ion-input>
+        <!-- <ion-icon name="checkmark-circle" slot="end" color="success" *ngIf="addressModel.valid"></ion-icon> -->
+      </ion-item>
+
+      <mgl-map [style]="'mapbox://styles/mapbox/streets-v11'" [zoom]="[16]" [center]="[event.lng, event.lat]">
+        <mgl-marker #marker [lngLat]="[event.lng, event.lat]"></mgl-marker>
+        <mgl-control mglGeocoder (result)="changePosition($event.result)"></mgl-control>
+      </mgl-map>
+
+    </ion-list>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button *ngIf="!event.id" (click)="addEvent()" color="primary" expand="block" [disabled]="eventForm.invalid || !event.image || !event.date">
+            <ion-icon name="add-circle" slot="start"></ion-icon>
+            Add
+          </ion-button>
+          <ion-button *ngIf="event.id" (click)="editEvent()" color="primary" expand="block" [disabled]="eventForm.invalid || eventForm.pristine">
+            <ion-icon name="create" slot="start"></ion-icon>
+            Edit
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button color="danger" expand="block" [routerLink]="['/home']" [routerDirection]="'root'">
+            <ion-icon name="arrow-undo-circle" slot="start"></ion-icon>
+            Cancel
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>
+
+

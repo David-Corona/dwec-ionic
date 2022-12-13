@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Comments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="event">
+
+  <ion-list id="comment-list" lines="none">
+    <ion-card *ngFor="let comment of comments">
+      <ion-item color="light">
+        <ion-avatar slot="start">
+          <img [routerLink]="['/profile', comment.user.id]" [src]="comment.user.avatar">
+        </ion-avatar>
+        <ion-label text-wrap>
+          <h4 [routerLink]="['/profile', comment.user.id]">{{comment.user.name}}</h4>
+          <p>{{comment.date | date:'dd/MM/y H:mm'}}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <div id="text" class="col" [innerText]=comment.comment></div>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+  <form (ngSubmit)="postComment()" *ngIf="event.attend">
+    <ion-item lines="none">
+      <ion-label position="floating">Post a new Comment:</ion-label>
+      <ion-textarea name="newComment" required [(ngModel)]="newComment.comment" #commentModel="ngModel" placeholder="Enter your comment here..."></ion-textarea>
+    </ion-item>
+
+    <ion-button type="submit" expand="block" >
+      <ion-icon name="chatbox-ellipses" slot="start"></ion-icon>
+      Post Comment
+    </ion-button>
+  </form>
+
+</ion-content>

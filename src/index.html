@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Ionic App</title>
+
+  <base href="/" />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <meta name="google-signin-client_id" content="507320639446-jqftlo9lqpur2kqr7bo5gmcr3l2b12qa.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/plus.js?onload=init"></script>
+  <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+    function onLoad() {
+      gapi.load('auth2', function() {
+        gapi.auth2.init();
+      });
+    }
+  </script>
+
+  <script type="text/javascript" src="//connect.facebook.net/en_US/sdk.js"></script>
+  <!-- <script type="text/javascript" src="//connect.facebook.net/en_US/all.js#xfbml=1&appId=340569757711666" id="facebook-jssdk"></script> -->
+
+</head>
+
+<body>
+  <app-root></app-root>
+</body>
+
+</html>

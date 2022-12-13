@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Event Information</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="event">
+    <img [src]="event.image"/>
+    <ion-card-content>
+      <ion-card-title>{{event.title}}</ion-card-title>
+      <ion-card-subtitle>{{event.description}}</ion-card-subtitle>
+    </ion-card-content>
+    <ion-item color="light" lines="none">
+      <ion-avatar slot="start" [routerLink]="['/profile', event.creator.id]">
+        <img [src]="event.creator.avatar">
+      </ion-avatar>
+      <ion-label text-wrap>
+        <h4 [routerLink]="['/profile', event.creator.id]">{{event.creator.name}}</h4>
+        <p>{{event.date | date:'dd/MM/y'}}</p>
+      </ion-label>
+      <ion-label slot="end" fill="clear">
+        <p>{{event.price | currency:'EUR':'symbol'}}</p>
+        <p>{{event.distance | number: '1.2-2'}} km</p>
+      </ion-label>
+    </ion-item>
+    <ion-button *ngIf="event.mine" expand="block" color="secondary" [routerLink]="['/event-details', event.id, 'edit']" [routerDirection]="'forward'" >
+      <ion-icon name="create" slot="start"></ion-icon>
+      <ion-label>Edit</ion-label>
+    </ion-button>
+    <ion-button *ngIf="event.mine" expand="block" color="danger" (click)="delete()">
+      <ion-icon name="trash" slot="start"></ion-icon>
+      <ion-label>Delete</ion-label>
+    </ion-button>
+  </ion-card>
+</ion-content>
